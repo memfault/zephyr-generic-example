@@ -3,7 +3,7 @@
 Based on https://github.com/zephyrproject-rtos/example-application , this
 provides a minimal reference for Memfault integration.
 
-This should work on any supported target board; tested on the MIMXRT685-EVK.
+This should work on any supported target board.
 
 ## Usage
 

@@ -12,10 +12,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          path: example-application
+          path: zephyr-memfault-example
 
       - name: Initialize
-        working-directory: example-application
+        working-directory: zephyr-memfault-example
         run: |
           pip3 install -U west
           west init -l .
@@ -23,12 +23,12 @@ jobs:
           pip3 install -r ../zephyr/scripts/requirements-base.txt
 
       - name: Build firmware
-        working-directory: example-application
+        working-directory: zephyr-memfault-example
         run: |
-          west build -b custom_plank -s app
+          west build --board nrf9160dk_nrf9160_ns app
 
       - name: Archive firmware
         uses: actions/upload-artifact@v2
         with:
           name: firmware
-          path: example-application/build/zephyr/zephyr.*
+          path: zephyr-memfault-example/build/zephyr/zephyr.*
