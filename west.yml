@@ -1,0 +1,22 @@
+# Copyright (c) 2021 Nordic Semiconductor ASA
+# SPDX-License-Identifier: Apache-2.0
+
+manifest:
+  self:
+    path: zephyr-memfault-example
+
+  remotes:
+    - name: zephyrproject-rtos
+      url-base: https://github.com/zephyrproject-rtos
+    - name: memfault
+      url-base: https://github.com/memfault
+
+  projects:
+    - name: zephyr
+      remote: zephyrproject-rtos
+      revision: zephyr-v2.7.0
+      import: true
+    - name: memfault-firmware-sdk
+      path: modules/lib/memfault-firmware-sdk
+      revision: 0.27.3
+      remote: memfault
