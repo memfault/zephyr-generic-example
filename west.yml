@@ -19,5 +19,5 @@ manifest:
     # The Memfault SDK
     - name: memfault-firmware-sdk
       path: modules/lib/memfault-firmware-sdk
-      revision: 0.27.3
+      revision: rt102x-noinit-workaround
       remote: memfault
