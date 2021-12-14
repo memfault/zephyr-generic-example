@@ -13,12 +13,12 @@ the following commands to test the application:
 
 ```shell
 # intialize this project
-❯ west init -m https://github.com/noahp/zephyr-memfault-sample.git zephyr-memfault-example
+❯ west init -m https://github.com/memfault/zephyr-memfault-example.git zephyr-memfault-example
 ❯ cd zephyr-memfault-example
 ❯ west update
 
 # build- example here is Nordic nRF52480 dk
-❯ west build -b nrf9160dk_nrf9160_ns -s zephyr-memfault-sample/app
+❯ west build -b nrf9160dk_nrf9160_ns -s zephyr-memfault-example/app
 
 # connect the USB cable to the board
 
