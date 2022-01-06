@@ -68,16 +68,9 @@ static void reset_flash(void) {
   gpio_pin_set(dev, 12, 1);
 }
 
-// TODO: this reset sequence results in the chip falling over to USB DFU, which
-// means the Flash configuration (0x400) or image header (0x1000) failed to load
-// 😞
 MEMFAULT_NORETURN
 void memfault_platform_reboot(void) {
   memfault_platform_halt_if_debugging();
-
-  // strobe reset pin on the SPI flash to set it back to 1-bit mode, which is
-  // required for the ROM bootloader to successfully probe it.
-  reset_flash();
 
   // Note: There is no header exposed for this zephyr function
   extern void sys_arch_reboot(int type);

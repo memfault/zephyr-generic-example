@@ -1,5 +1,4 @@
-# Copyright (c) 2021 Nordic Semiconductor ASA
-# SPDX-License-Identifier: Apache-2.0
+# West manifest for Memfault Example Application
 
 manifest:
   self:
@@ -16,6 +15,8 @@ manifest:
       remote: zephyrproject-rtos
       revision: zephyr-v2.7.0
       import: true
+
+    # The Memfault SDK
     - name: memfault-firmware-sdk
       path: modules/lib/memfault-firmware-sdk
       revision: 0.27.3
