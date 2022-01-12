@@ -56,18 +56,6 @@ void memfault_platform_get_device_info(sMemfaultDeviceInfo *info) {
   };
 }
 
-static void reset_flash(void) {
-  // toggle the reset pin with a delay. MX25UM51345G datasheet specifies 10us
-  // (see section "13. RESET")
-  //
-  // P2_12 on the EVK is the SPI flash reset pin (OR'd with a couple other
-  // sources to produce nRESET_OSPI)
-  const struct device *dev = device_get_binding("GPIO_2");
-  gpio_pin_set(dev, 12, 0);
-  k_busy_wait(1000 * 100);
-  gpio_pin_set(dev, 12, 1);
-}
-
 MEMFAULT_NORETURN
 void memfault_platform_reboot(void) {
   memfault_platform_halt_if_debugging();
