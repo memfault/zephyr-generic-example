@@ -6,7 +6,7 @@
 
 #include "memfault/components.h"
 
-LOG_MODULE_REGISTER(main, CONFIG_APP_LOG_LEVEL);
+LOG_MODULE_REGISTER(main, CONFIG_SHELL_LOG_LEVEL);
 
 // Blink code taken from the zephyr/samples/basic/blinky example.
 static void blink_forever(void) {
@@ -47,6 +47,10 @@ static void blink_forever(void) {
   }
 }
 
+sMfltHttpClientConfig g_mflt_http_client_config = {
+  .api_key = "<YOUR PROJECT KEY HERE>",
+};
+
 void memfault_platform_get_device_info(sMemfaultDeviceInfo *info) {
   *info = (sMemfaultDeviceInfo){
       .device_serial = "DEMOSERIAL",
@@ -54,18 +58,6 @@ void memfault_platform_get_device_info(sMemfaultDeviceInfo *info) {
       .software_version = "1.0.0-dev",
       .hardware_version = CONFIG_BOARD,
   };
-}
-
-static void reset_flash(void) {
-  // toggle the reset pin with a delay. MX25UM51345G datasheet specifies 10us
-  // (see section "13. RESET")
-  //
-  // P2_12 on the EVK is the SPI flash reset pin (OR'd with a couple other
-  // sources to produce nRESET_OSPI)
-  const struct device *dev = device_get_binding("GPIO_2");
-  gpio_pin_set(dev, 12, 0);
-  k_busy_wait(1000 * 100);
-  gpio_pin_set(dev, 12, 1);
 }
 
 MEMFAULT_NORETURN
