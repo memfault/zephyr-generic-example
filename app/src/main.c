@@ -3,6 +3,7 @@
 #include <drivers/gpio.h>
 #include <logging/log.h>
 #include <zephyr.h>
+#include <stdlib.h>
 
 #include "memfault/components.h"
 
@@ -68,6 +69,11 @@ void memfault_platform_reboot(void) {
 }
 
 void main(void) {
+  volatile void * yolo = malloc(1024);
+  MEMFAULT_HEAP_STATS_MALLOC((void *)yolo, 1024);
+  MEMFAULT_HEAP_STATS_FREE((void *)yolo);
+  free((void *)yolo);
+
   LOG_INF("Memfault Demo App! Board %s\n", CONFIG_BOARD);
   memfault_device_info_dump();
   blink_forever();
