@@ -3,12 +3,11 @@
 Based on https://github.com/zephyrproject-rtos/example-application , this
 provides a minimal reference for Memfault integration.
 
-This should work on any supported target board*
+This branch has a specific workaround for the RT10xx boards. Tested on the
+following EVKs:
 
-*For the NXP RT10xx EVKs, use the following branch instead (tested on RT1021 and
-RT1060):
-
-- https://github.com/memfault/zephyr-memfault-example/tree/rt102x-noinit-workaround
+- MIMXRT1020-EVK
+- MIMXRT1060-EVKB
 
 ## Usage
 
@@ -22,13 +21,13 @@ the following commands to test the application:
 ❯ cd zephyr-memfault-example
 ❯ west update
 
-# build- example here is Nordic nRF52480 dk
-❯ west build -b nrf9160dk_nrf9160_ns -s zephyr-memfault-example/app
+# build- example here is NXP MIMXRT1060_EVK
+❯ west build -b mimxrt1060_evk app -- -DCONFIG_BUILD_OUTPUT_HEX=y
 
 # connect the USB cable to the board
 
 # open a console in one terminal
-❯ pyserial-miniterm /dev/serial/by-id/usb-SEGGER_J-Link_000683232543-if00 115200 --raw
+❯ pyserial-miniterm --raw /dev/ttyACM0 115200 --raw
 
 # now flash from another terminal
 ❯ west flash
@@ -38,5 +37,5 @@ uart:~$ mflt get_device_info
 <inf> <mflt>: S/N: DEMOSERIAL
 <inf> <mflt>: SW type: zephyr-app
 <inf> <mflt>: SW version: 1.0.0-dev
-<inf> <mflt>: HW version: nrf52840dk_nrf52840
+<inf> <mflt>: HW version: mimxrt1060_evk
 ```
