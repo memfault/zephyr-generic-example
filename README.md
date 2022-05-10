@@ -3,7 +3,12 @@
 Based on https://github.com/zephyrproject-rtos/example-application , this
 provides a minimal reference for Memfault integration.
 
-This should work on any supported target board.
+This should work on any supported target board*
+
+*For the NXP RT10xx EVKs, use the following branch instead (tested on RT1021 and
+RT1060):
+
+- https://github.com/memfault/zephyr-memfault-example/tree/rt102x-noinit-workaround
 
 ## Usage
 
