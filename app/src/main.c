@@ -6,7 +6,7 @@
 
 #include "memfault/components.h"
 
-LOG_MODULE_REGISTER(main, CONFIG_APP_LOG_LEVEL);
+LOG_MODULE_REGISTER(main, LOG_LEVEL_INF);
 
 // Blink code taken from the zephyr/samples/basic/blinky example.
 static void blink_forever(void) {
@@ -69,6 +69,10 @@ void memfault_platform_reboot(void) {
 
 void main(void) {
   LOG_INF("Memfault Demo App! Board %s\n", CONFIG_BOARD);
+
+  memfault_coredump_storage_debug_test_begin();
+  memfault_coredump_storage_debug_test_finish();
+
   memfault_device_info_dump();
   blink_forever();
 }
