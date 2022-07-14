@@ -6,7 +6,7 @@
 
 #include "memfault/components.h"
 
-LOG_MODULE_REGISTER(main, CONFIG_APP_LOG_LEVEL);
+LOG_MODULE_REGISTER(main, LOG_LEVEL_INF);
 
 // Blink code taken from the zephyr/samples/basic/blinky example.
 static void blink_forever(void) {
