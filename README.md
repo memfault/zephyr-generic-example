@@ -40,3 +40,17 @@ uart:~$ mflt get_device_info
 <inf> <mflt>: SW version: 1.0.0-dev
 <inf> <mflt>: HW version: nrf52840dk_nrf52840
 ```
+
+For testing without real hardware, a `qemu` target can be used, for example:
+
+```bash
+❯ west build -b qemu_cortex_m3 --pristine=always zephyr-memfault-example/app
+❯ west build -t run
+
+[00:00:00.000,000] <inf> main: Memfault Demo App! Board qemu_cortex_m3
+
+<inf> mflt: S/N: DEMOSERIAL
+<inf> mflt: SW type: zephyr-app
+<inf> mflt: SW version: 1.0.0-dev
+<inf> mflt: HW version: qemu_cortex_m3
+```
