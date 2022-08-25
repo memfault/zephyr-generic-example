@@ -54,7 +54,12 @@ void memfault_platform_reboot(void) {
 }
 
 void main(void) {
-  LOG_INF("Memfault Demo App! Board %s\n", CONFIG_BOARD);
+  LOG_INF("Memfault Demo App! Board %s", CONFIG_BOARD);
+  LOG_INF(" current thread: %s", k_thread_name_get(k_current_get()));
+  LOG_INF(
+      "A really really long log statement, longer than the intermediate buffer "
+      "when logging in IMMEDIATE mode, longer even than you might consider "
+      "reasonable for a single log statement!");
   memfault_device_info_dump();
   blink_forever();
 }
