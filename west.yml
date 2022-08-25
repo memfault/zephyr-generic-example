@@ -14,7 +14,10 @@ manifest:
     - name: zephyr
       remote: zephyrproject-rtos
       revision: zephyr-v3.1.0
-      import: true
+      import:
+        path-blocklist: modules/*
+        path-allowlist: modules/lib/memfault-firmware-sdk/
+        path-allowlist: modules/hal/cmsis
 
     # The Memfault SDK
     - name: memfault-firmware-sdk
