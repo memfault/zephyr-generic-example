@@ -33,6 +33,14 @@ static void blink_forever(void) {
 #endif  // CONFIG_QEMU_TARGET
 }
 
+#include <malloc.h>
+void memfault_metrics_heartbeat_collect_data(void) {
+  const struct mallinfo mi = mallinfo();
+  const uint32_t heap_used_bytes = mi.uordblks;
+  memfault_metrics_heartbeat_set_unsigned(MEMFAULT_METRICS_KEY(HeapUsedBytes),
+                                          heap_used_bytes);
+}
+
 void memfault_platform_get_device_info(sMemfaultDeviceInfo *info) {
   *info = (sMemfaultDeviceInfo){
       .device_serial = "DEMOSERIAL",
@@ -53,7 +61,19 @@ void memfault_platform_reboot(void) {
   CODE_UNREACHABLE;
 }
 
+#include <stdio.h>
+
 void main(void) {
+  char *heap = malloc(128);
+  if (!heap) {
+    LOG_ERR("Failed to allocate heap");
+  } else {
+    LOG_INF("Allocated heap at %p", heap);
+    sprintf(heap, "allocated on heap");
+    LOG_INF("Hello World! %s", heap);
+
+    LOG_INF("Leaking heap allocation");
+  }
   LOG_INF("Memfault Demo App! Board %s\n", CONFIG_BOARD);
   memfault_device_info_dump();
   blink_forever();

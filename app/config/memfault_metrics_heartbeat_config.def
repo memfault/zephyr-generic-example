@@ -1,0 +1,1 @@
+MEMFAULT_METRICS_KEY_DEFINE(HeapUsedBytes, kMemfaultMetricType_Unsigned)
