@@ -42,19 +42,58 @@ void memfault_platform_get_device_info(sMemfaultDeviceInfo *info) {
   };
 }
 
-MEMFAULT_NORETURN
-void memfault_platform_reboot(void) {
-  memfault_platform_halt_if_debugging();
+#if CONFIG_ZEPHYR_MEMFAULT_EXAMPLE_THREAD_TOGGLE
+K_THREAD_STACK_DEFINE(test_thread_stack_area, 1024);
+static struct k_thread test_thread;
 
-  // Note: There is no header exposed for this zephyr function
-  extern void sys_arch_reboot(int type);
+static void prv_test_thread_function(void *arg0, void *arg1, void *arg2) {
+  ARG_UNUSED(arg0);
+  ARG_UNUSED(arg1);
+  ARG_UNUSED(arg2);
 
-  sys_arch_reboot(0);
-  CODE_UNREACHABLE;
+  k_sleep(K_FOREVER);
 }
+
+static void prv_test_thread_work_handler(struct k_work *work) {
+  ARG_UNUSED(work);
+
+  static bool started = false;
+  if (started) {
+    LOG_INF("ending test_thread");
+    k_thread_abort(&test_thread);
+    started = false;
+  } else {
+    LOG_INF("starting test_thread");
+    k_thread_create(&test_thread, test_thread_stack_area,
+                    K_THREAD_STACK_SIZEOF(test_thread_stack_area),
+                    prv_test_thread_function, NULL, NULL, NULL, 7, 0,
+                    K_FOREVER);
+    k_thread_name_set(&test_thread, "test_thread");
+    k_thread_start(&test_thread);
+    started = true;
+  }
+}
+K_WORK_DEFINE(s_test_thread_work, prv_test_thread_work_handler);
+
+//! Timer handlers run from an ISR so we dispatch the heartbeat job to the
+//! worker task
+static void prv_test_thread_timer_expiry_handler(struct k_timer *dummy) {
+  k_work_submit(&s_test_thread_work);
+}
+K_TIMER_DEFINE(s_test_thread_timer, prv_test_thread_timer_expiry_handler, NULL);
+
+static void prv_init_test_thread_timer(void) {
+  k_timer_start(&s_test_thread_timer, K_SECONDS(10), K_SECONDS(10));
+}
+#else
+static void prv_init_test_thread_timer(void) {}
+#endif  // CONFIG_ZEPHYR_MEMFAULT_EXAMPLE_THREAD_TOGGLE
 
 void main(void) {
   LOG_INF("Memfault Demo App! Board %s\n", CONFIG_BOARD);
   memfault_device_info_dump();
+
+  prv_init_test_thread_timer();
+
   blink_forever();
 }

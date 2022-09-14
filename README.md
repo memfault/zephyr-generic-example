@@ -23,7 +23,7 @@ the following commands to test the application:
 ❯ west update
 
 # build- example here is Nordic nRF52480 dk
-❯ west build -b nrf9160dk_nrf9160_ns -s zephyr-memfault-example/app
+❯ west build -b nrf52840dk_nrf52840 zephyr-memfault-example/app
 
 # connect the USB cable to the board
 
@@ -44,13 +44,16 @@ uart:~$ mflt get_device_info
 For testing without real hardware, a `qemu` target can be used, for example:
 
 ```bash
-❯ west build -b qemu_cortex_m3 --pristine=always zephyr-memfault-example/app
+# highly recommend '-DCONFIG_QEMU_ICOUNT=n' otherwise the guest runs too fast
+❯ west build -b qemu_cortex_m3 --pristine=always zephyr-memfault-example/app -- -DCONFIG_QEMU_ICOUNT=n
 ❯ west build -t run
 
+*** Booting Zephyr OS build zephyr-v3.1.0  ***
+[00:00:00.000,000] <inf> mflt: GNU Build ID: a3f2f5da83bc62ceb0351f88a8b30d5cdab59ae9
 [00:00:00.000,000] <inf> main: Memfault Demo App! Board qemu_cortex_m3
 
-<inf> mflt: S/N: DEMOSERIAL
-<inf> mflt: SW type: zephyr-app
-<inf> mflt: SW version: 1.0.0-dev
-<inf> mflt: HW version: qemu_cortex_m3
+[00:00:00.000,000] <inf> mflt: S/N: DEMOSERIAL
+[00:00:00.000,000] <inf> mflt: SW type: zephyr-app
+[00:00:00.000,000] <inf> mflt: SW version: 1.0.0-dev
+[00:00:00.000,000] <inf> mflt: HW version: qemu_cortex_m3
 ```
