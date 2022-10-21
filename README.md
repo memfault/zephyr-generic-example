@@ -1,3 +1,10 @@
+> Note: this example has been moved to the Memfault Firmware SDK and is
+> no longer maintained here:
+>
+> https://github.com/memfault/memfault-firmware-sdk/tree/34fe806382f91311160b7342d205216b79d05557/examples/zephyr/qemu
+
+---
+
 # Example Memfault Zephyr application
 
 Based on https://github.com/zephyrproject-rtos/example-application , this
